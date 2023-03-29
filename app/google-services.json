@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "476122527476",
+    "project_id": "spotifycloneprasher",
+    "storage_bucket": "spotifycloneprasher.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476122527476:android:4b0d47b28c4855a84150a1",
+        "android_client_info": {
+          "package_name": "com.prasher.spotifyclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "476122527476-89r190g5c4dapcftsq3g2r1kanp9gk5o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9347puRY6cG3nEuT_Xcu8C2buJKB_5xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "476122527476-89r190g5c4dapcftsq3g2r1kanp9gk5o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
