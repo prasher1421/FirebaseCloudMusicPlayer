@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:gravity="center|left"
+        android:gravity="center|start"
         android:text="Playlist Title"
         android:layout_marginTop="8dp"
         android:textSize="20sp"
