@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.prasher.spotifyclone.SpotifyApplication
+import com.prasher.spotifyclone.data.remote.MusicDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,10 @@ import dagger.hilt.android.scopes.ServiceScoped
 @Module
 @InstallIn(ServiceComponent::class)//Has a lifetime just upto when Service is active
 object ServiceModule {
+
+    @ServiceScoped
+    @Provides
+    fun providesMusicDatabase() = MusicDatabase()
 
     @ServiceScoped
     @Provides
