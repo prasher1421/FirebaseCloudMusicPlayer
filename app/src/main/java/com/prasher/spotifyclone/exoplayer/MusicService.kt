@@ -14,10 +14,7 @@ import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlaybackPreparer
 import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlayerEventListener
 import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlayerNotificationListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 private const val SERVICE_TAG = "MusicService"
@@ -51,6 +48,10 @@ class MusicService : MediaBrowserServiceCompat() {
 
     override fun onCreate() {
         super.onCreate()
+        serviceScope.launch {
+            firebaseMusicSource.fetchMediaData()
+        }
+
         //for notification
         val activityIntent = packageManager.getLaunchIntentForPackage(packageName)?.let {
             PendingIntent.getActivity(this,0,it,0)
