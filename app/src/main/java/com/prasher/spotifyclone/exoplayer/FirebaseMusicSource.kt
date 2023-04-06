@@ -74,7 +74,7 @@ class FirebaseMusicSource @Inject constructor(
             .setIconUri(song.description.iconUri)
             .build()
         MediaBrowserCompat.MediaItem(desc, FLAG_PLAYABLE)
-    }
+    }.toMutableList()
 
     //when we download data from firestore it actually takes time
     //in coroutine we need mechanism to check whether they have finished downloading
