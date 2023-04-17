@@ -18,6 +18,7 @@ import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlaybackPreparer
 import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlayerEventListener
 import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlayerNotificationListener
 import com.prasher.spotifyclone.other.Constants.MEDIA_ROOT_ID
+import com.prasher.spotifyclone.other.Constants.NETWORK_ERROR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -182,6 +183,9 @@ class MusicService : MediaBrowserServiceCompat() {
                             preparePlayer(firebaseMusicSource.songs , firebaseMusicSource.songs[0],false)
                             isPlayerInitialized = true
                     }else{
+
+                        mediaSession.sendSessionEvent(NETWORK_ERROR , null)
+
                         result.sendResult(null)
                     }
                 }
