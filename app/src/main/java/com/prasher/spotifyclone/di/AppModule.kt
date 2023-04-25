@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.prasher.spotifyclone.R
+import com.prasher.spotifyclone.exoplayer.MusicServiceConnection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +17,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponentManager::class)//to give singleton objects whole app lifetime like glide
 object AppModule {
+
+    @Singleton
+    @Provides// for injecting in viewModel
+    fun provideMusicServiceConnection(
+        @ApplicationContext context: Context
+    ) = MusicServiceConnection(context)
 
     //Same instance is taken everytime
     @Singleton
