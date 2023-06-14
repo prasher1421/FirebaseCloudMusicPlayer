@@ -1,6 +1,8 @@
 package com.prasher.spotifyclone.exoplayer
 
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -14,6 +16,7 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultDataSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlaybackPreparer
 import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlayerEventListener
 import com.prasher.spotifyclone.exoplayer.callbacks.MusicPlayerNotificationListener
@@ -29,7 +32,7 @@ private const val SERVICE_TAG = "MusicService"
 class MusicService : MediaBrowserServiceCompat() {
 
     @Inject
-    lateinit var dataSourceFactory: DefaultDataSource.Factory
+    lateinit var dataSourceFactory: DefaultDataSourceFactory
 
     @Inject
     lateinit var exoPlayer: ExoPlayer
@@ -41,7 +44,7 @@ class MusicService : MediaBrowserServiceCompat() {
 
     private val serviceJob = Job()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
-    //+ means it has properties of Main Dispatcher and serviceJob both
+    //+ means it has merged properties of Main Dispatcher and serviceJob both
 
     private lateinit var mediaSession : MediaSessionCompat
     private lateinit var mediaSessionConnector : MediaSessionConnector
@@ -68,7 +71,7 @@ class MusicService : MediaBrowserServiceCompat() {
 
         //for notification
         val activityIntent = packageManager.getLaunchIntentForPackage(packageName)?.let {
-            PendingIntent.getActivity(this,0,it,0)
+            PendingIntent.getActivity(this,0,it, FLAG_MUTABLE)
         }
 
         //comes with a token
@@ -76,6 +79,7 @@ class MusicService : MediaBrowserServiceCompat() {
             setSessionActivity(activityIntent)
             isActive = true
         }
+
 
         sessionToken = mediaSession.sessionToken
 
@@ -95,10 +99,11 @@ class MusicService : MediaBrowserServiceCompat() {
         val musicPlaybackPreparer = MusicPlaybackPreparer(firebaseMusicSource){
             curPlayingSong = it
 
+
             preparePlayer(
-                firebaseMusicSource.songs,
-                it,
-                true
+                    firebaseMusicSource.songs,
+                    it,
+                    true
             )
         }
 
@@ -128,13 +133,17 @@ class MusicService : MediaBrowserServiceCompat() {
         playNow : Boolean
     ){
         val curSongIndex = if (curPlayingSong == null) 0 else songs.indexOf(itemToPlay)
-        exoPlayer.prepare(firebaseMusicSource.asMediaSource(dataSourceFactory))
-        exoPlayer.seekTo(curSongIndex, 0) // start that song which is selected
+        CoroutineScope(Dispatchers.Main).launch {
+            exoPlayer.prepare(firebaseMusicSource.asMediaSource(dataSourceFactory))
+            exoPlayer.seekTo(curSongIndex, 0)
+            exoPlayer.playWhenReady = playNow
+        }
+         // start that song which is selected
 
         //usually when the app opens we don't play the songs by ourself but wait for user to play song
         //so we generally set playNow false
         //when user clicks then we set it true
-        exoPlayer.playWhenReady = playNow
+
     }
 
     override fun onDestroy() {
@@ -163,12 +172,11 @@ class MusicService : MediaBrowserServiceCompat() {
         return BrowserRoot(MEDIA_ROOT_ID,null)
     }
 
+
+
     //doesn't just has a list of songs and to be played but has playlists albums
     //can be thought as a file manager
     //like recommender system
-
-
-
     override fun onLoadChildren(
         parentId: String,//id of the playlists to which client subscribes
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>//list of playable song or browsable
@@ -178,10 +186,15 @@ class MusicService : MediaBrowserServiceCompat() {
                 val resultsSent = firebaseMusicSource.whenReady {isInitialized ->
                     if (isInitialized){
                         result.sendResult(firebaseMusicSource.asMediaItem())
-                        if (!isPlayerInitialized && firebaseMusicSource.songs.isNotEmpty())
+                        if (!isPlayerInitialized && firebaseMusicSource.songs.isNotEmpty()) {
 
-                            preparePlayer(firebaseMusicSource.songs , firebaseMusicSource.songs[0],false)
+                            preparePlayer(
+                                firebaseMusicSource.songs,
+                                firebaseMusicSource.songs[0],
+                                false
+                            )
                             isPlayerInitialized = true
+                        }
                     }else{
 
                         mediaSession.sendSessionEvent(NETWORK_ERROR , null)
@@ -198,6 +211,4 @@ class MusicService : MediaBrowserServiceCompat() {
             }
         }
     }
-
-
 }
