@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/bg_dark_view_pager"
+    android:background="@drawable/bg_view_pager"
     android:layout_height="match_parent">
 
     <com.google.android.material.textview.MaterialTextView
@@ -13,6 +13,7 @@
         android:gravity="center"
         android:text="Title"
         android:textSize="13sp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:fontFamily="@font/poppins_medium"
         app:layout_constraintBottom_toTopOf="@id/tvSecondarySwipe"
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Subtitle"
+        android:layout_marginBottom="10dp"
         android:textSize="11sp"
         android:textColor="@color/text_grey"
         app:layout_constraintBottom_toBottomOf="parent"
