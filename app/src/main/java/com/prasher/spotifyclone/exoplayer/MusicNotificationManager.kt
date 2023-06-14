@@ -26,9 +26,7 @@ class MusicNotificationManager(
     private val notificationManager: PlayerNotificationManager
 
 
-    //TODO("check builder if error occurs")
     init {
-
         //controls media , get info about currently playing song
         val mediaController = MediaControllerCompat(context, sessionToken)
 
@@ -36,10 +34,11 @@ class MusicNotificationManager(
             context,
             NOTIFICATION_ID,
             NOTIFICATION_CHANNEL_ID,
-            DescriptionAdapter(mediaController)
+            DescriptionAdapter(mediaController),
         )
             .setChannelNameResourceId(R.id.notification_channel_name)
             .setChannelDescriptionResourceId(R.id.notification_channel_description)
+            .setNotificationListener(notificationListener)
             .build()
             .apply {
                 setSmallIcon(R.drawable.ic_music)
@@ -79,9 +78,7 @@ class MusicNotificationManager(
         ): Bitmap? {
             //icon has to be loaded using glide
             Glide.with(context).asBitmap()
-                    //now specify url
                 .load(mediaController.metadata.description.iconUri)
-                    //
                 .into(object : CustomTarget<Bitmap>() {
 
                     //here we get our fully loaded bitmap
@@ -92,7 +89,6 @@ class MusicNotificationManager(
                         //when we asynchronously load image just return null for whole function and return bitmap here
                         callback.onBitmap(resource)
                     }
-                    //nothing to be returned
                     override fun onLoadCleared(placeholder: Drawable?) = Unit
                 })
             return null

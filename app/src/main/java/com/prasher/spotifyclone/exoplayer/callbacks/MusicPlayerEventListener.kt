@@ -20,6 +20,7 @@ class MusicPlayerEventListener(
         super.onPlayerError(error)
         //like no internet
         Toast.makeText(musicService,"Some Error occurred", Toast.LENGTH_SHORT).show()
-
     }
+
+
 }

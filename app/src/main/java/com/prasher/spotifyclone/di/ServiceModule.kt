@@ -25,11 +25,11 @@ object ServiceModule {
     @Provides
     fun providesMusicDatabase() = MusicDatabase()
 
-    @ServiceScoped
+    @ServiceScoped //we cannot scope it by singleton but serviceScoped is equivalent
     @Provides
     fun provideAudioAttributes() = AudioAttributes.Builder()
-        .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
-        .setUsage(C.USAGE_MEDIA)
+        .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)//music content
+        .setUsage(C.USAGE_MEDIA)//media
         .build()
 
     @ServiceScoped
@@ -38,12 +38,12 @@ object ServiceModule {
         @ApplicationContext context: Context,
         audioAttributes: AudioAttributes
     ) = ExoPlayer.Builder(context).build().apply {
-        setAudioAttributes(audioAttributes,true)
-
+        setAudioAttributes(audioAttributes,true) //provided by dagger Hilt
         setHandleAudioBecomingNoisy(true)//if user connects headphones it becomes noisy so it will handle by pausing
     }
 
 
+    //get music source (firebase)
     @ServiceScoped
     @Provides
     fun provideDataSourceFactory(

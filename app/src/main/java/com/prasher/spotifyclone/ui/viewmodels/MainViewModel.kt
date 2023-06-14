@@ -3,7 +3,6 @@ package com.prasher.spotifyclone.ui.viewmodels
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.SubscriptionCallback
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,14 +12,15 @@ import com.prasher.spotifyclone.exoplayer.isPlayEnabled
 import com.prasher.spotifyclone.exoplayer.isPlaying
 import com.prasher.spotifyclone.exoplayer.isPrepared
 import com.prasher.spotifyclone.other.Constants.MEDIA_ROOT_ID
-import com.prasher.spotifyclone.other.Resource
+import com.prasher.spotifyclone.other.Response
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(
+class MainViewModel @Inject constructor(
     //those dependencies that are injected which are specified in constructor
     private val musicServiceConnection : MusicServiceConnection
 )  : ViewModel(){
-    private val _mediaItems = MutableLiveData<Resource<List<Song>>>()
-    val mediaItems : LiveData<Resource<List<Song>>> = _mediaItems
+    private val _mediaItems = MutableLiveData<Response<List<Song>>>()
+    val mediaItems : LiveData<Response<List<Song>>> = _mediaItems
 
     val isConnected = musicServiceConnection.isConnected
     val networkError = musicServiceConnection.networkError
@@ -29,7 +29,7 @@ class MainViewModel @ViewModelInject constructor(
 
 
     init {
-        _mediaItems.postValue(Resource.loading(null))
+        _mediaItems.postValue(Response.loading(null))
         musicServiceConnection.subscribe(MEDIA_ROOT_ID, object : SubscriptionCallback() {
             override fun onChildrenLoaded(
                 parentId: String,
@@ -47,7 +47,7 @@ class MainViewModel @ViewModelInject constructor(
                 }
 
                 //posting the children after being mapped to each of the song
-                _mediaItems.postValue(Resource.success(items))
+                _mediaItems.postValue(Response.success(items))
 
             }
         })

@@ -12,7 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.prasher.spotifyclone.other.Constants.NETWORK_ERROR
 import com.prasher.spotifyclone.other.Event
-import com.prasher.spotifyclone.other.Resource
+import com.prasher.spotifyclone.other.Response
 
 class MusicServiceConnection(
     context : Context
@@ -21,11 +21,11 @@ class MusicServiceConnection(
     //and can be observed from other classes
 
 
-    private val _isConnected = MutableLiveData<Event<Resource<Boolean>>>()
-    val isConnected : LiveData<Event<Resource<Boolean>>> = _isConnected
+    private val _isConnected = MutableLiveData<Event<Response<Boolean>>>()
+    val isConnected : LiveData<Event<Response<Boolean>>> = _isConnected
 
-    private val _networkError = MutableLiveData<Event<Resource<Boolean>>>()
-    val networkError : LiveData<Event<Resource<Boolean>>> = _networkError
+    private val _networkError = MutableLiveData<Event<Response<Boolean>>>()
+    val networkError : LiveData<Event<Response<Boolean>>> = _networkError
 
     //player is playing or not
     private val _playbackState = MutableLiveData<PlaybackStateCompat?>()
@@ -42,8 +42,8 @@ class MusicServiceConnection(
         get() = mediaController.transportControls
 
 
-    fun subscribe(parentId : String, callbackk : MediaBrowserCompat.SubscriptionCallback){
-        mediaBrowser.subscribe(parentId,callbackk)
+    fun subscribe(parentId : String, callback : MediaBrowserCompat.SubscriptionCallback){
+        mediaBrowser.subscribe(parentId,callback)
     }
     fun unsubscribe(parentId : String, callback : MediaBrowserCompat.SubscriptionCallback){
         mediaBrowser.unsubscribe(parentId,callback)
@@ -74,14 +74,14 @@ class MusicServiceConnection(
                 registerCallback(MediaControllerCallback())
             }
 
-            _isConnected.postValue(Event(Resource.success(true)))
+            _isConnected.postValue(Event(Response.success(true)))
         }
 
 
         //when it failed
         override fun onConnectionSuspended() {
             _isConnected.postValue(
-                Event(Resource.error(
+                Event(Response.error(
                 "The connection was suspended", false
             )
                 )
@@ -92,9 +92,9 @@ class MusicServiceConnection(
         //when it failed
         override fun onConnectionFailed() {
             _isConnected.postValue(
-                Event(Resource.error(
+                Event(Response.error(
                     "Couldn't connect to media browser",false
-                )
+                    )
                 )
             )
         }
@@ -118,7 +118,7 @@ class MusicServiceConnection(
             when(event) {
                 NETWORK_ERROR -> _networkError.postValue(
                     Event(
-                        Resource.error(
+                        Response.error(
                             "Couldn't connect to the server. Please check your Internet Connection.",
                             null
                         )
