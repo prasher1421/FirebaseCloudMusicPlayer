@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         vpSong = findViewById(R.id.vpSong)
         ivCurSongImage = findViewById(R.id.ivCurSongImage)
 
+        subscribeToObservers()
 
 
         vpSong.adapter = swipeSongAdapter
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                             swipeSongAdapter.songs = songs
                             if (songs.isNotEmpty()) {
                                 glide
-                                    .load((curPlayingSong ?: songs[0]).songURL)
+                                    .load((curPlayingSong ?: songs[0]).imageURL)
                                     .into(ivCurSongImage)
                             }
 
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
             curPlayingSong = it.toSong()
             glide
-                .load(curPlayingSong)
+                .load(curPlayingSong?.imageURL)
                 .into(ivCurSongImage)
             switchViewPagerToCurrentSong(curPlayingSong ?: return@observe)
 

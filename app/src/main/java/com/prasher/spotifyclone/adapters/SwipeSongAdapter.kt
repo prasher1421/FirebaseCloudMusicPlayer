@@ -12,10 +12,12 @@ class SwipeSongAdapter : BaseSongAdapter(R.layout.swipe_item){
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         val tvPrimarySwipe : TextView? = holder.itemView.findViewById(R.id.tvPrimarySwipe)
+        val tvSecondarySwipe : TextView? = holder.itemView.findViewById(R.id.tvSecondarySwipe)
 
         val song = songs[position]
         holder.apply {
             tvPrimarySwipe?.text = song.title
+            tvSecondarySwipe?.text = song.subtitle
 
             Timber.tag("Firebase Data ImageURL").d(song.subtitle)
             Timber.tag("Firebase Data SongURL").d(song.imageURL)
