@@ -9,6 +9,24 @@
     android:background="@color/black"
     tools:context=".ui.MainActivity">
 
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ExoPlayer"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/flFragmentContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="23sp" />
+
+
+
+
     <FrameLayout
         android:id="@+id/flFragmentContainer"
         android:layout_width="match_parent"
@@ -17,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
         <fragment
             android:id="@+id/navHostFragment"
