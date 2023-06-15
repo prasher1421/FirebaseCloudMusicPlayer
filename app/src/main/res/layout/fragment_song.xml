@@ -4,30 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".ui.MainActivity">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvSongName"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SONG NAME"
+        android:orientation="vertical"
         android:gravity="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/ivSongImage"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/guideline2">
 
-    <ImageView
-        android:id="@+id/ivSongImage"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvSongName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SONG NAME"
+            android:layout_marginBottom="-5dp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="17sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvSubtitleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUBTITLE"
+            android:textColor="@color/text_grey"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvSongImage"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:background="@color/bg_dark_view_pager"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp">
+
+        <ImageView
+            android:id="@+id/ivSongImage"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@color/bg_dark_view_pager"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.cardview.widget.CardView>
+
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvCurTime"
@@ -35,6 +73,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="00:00"
+        android:textColor="@color/text_grey"
         android:layout_marginStart="16dp"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/seekBar"
@@ -45,6 +84,8 @@
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="18dp"
+        android:progressBackgroundTint="@color/white"
+        android:progressTint="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/tvSongDuration"
         app:layout_constraintStart_toEndOf="@+id/tvCurTime"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
@@ -54,6 +95,7 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="@color/text_grey"
         android:text="00:00"
         android:layout_marginEnd="16dp"
         android:textSize="14sp"
@@ -66,8 +108,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/circle_drawable"
-        android:src="@drawable/ic_play"
+        android:src="@drawable/ic_play_white_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.60328317" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
